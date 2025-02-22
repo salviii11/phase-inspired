@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase-Inspired Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            position: relative;
+            z-index: 3;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        .images {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .images img {
+            width: 420px;
+            margin: 0 15px;
+            transition: filter 0.5s, transform 0.3s;
+            filter: grayscale(100%) contrast(0.5);
+        }
+        .images img:hover {
+            transform: scale(1.2);
+            filter: none;
+        }
+        .images img.dimmed {
+            filter: grayscale(100%) contrast(0.3);
+        }
+        /* Section Styling */
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            padding: 50px;
+        }
+        .section h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">Phase-Inspired</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="home" class="hero">
+        <h1 class="title">Experience Innovation</h1>
+        <div class="images">
+            <img src="image1.webp" class="hover-img" alt="Image 1">
+            <img src="image2.webp" class="hover-img" alt="Image 2">
+            <img src="image3.webp" class="hover-img" alt="Image 3">
+        </div>
+    </div>
+
+    <div id="about" class="section bg-secondary">
+        <h2>About Us</h2>
+        <p>Welcome to Phase-Inspired, where innovation meets creativity. Our mission is to create unique digital experiences that inspire and engage audiences. We specialize in web development, design, and technology-driven solutions tailored to meet modern challenges.</p>
+    </div>
+
+    <div id="contact" class="section bg-dark">
+        <h2>Get in Touch</h2>
+        <p>Have any questions or inquiries? Reach out to us via email at <a href="mailto:info@phaseinspired.com">info@phaseinspired.com</a> or call us at +123 456 7890. We look forward to collaborating with you!</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        gsap.to(".title", {opacity: 1, y: -20, duration: 1, ease: "power2.out"});
+
+        document.querySelectorAll(".hover-img").forEach(img => {
+            img.addEventListener("mouseenter", () => {
+                gsap.to(".title", {opacity: 0, duration: 0.3});
+                gsap.to(".images", {opacity: 1, duration: 0.5});
+                document.querySelectorAll(".hover-img").forEach(other => {
+                    if (other !== img) other.classList.add("dimmed");
+                });
+            });
+            img.addEventListener("mouseleave", () => {
+                gsap.to(".title", {opacity: 1, duration: 0.3});
+                gsap.to(".images", {opacity: 0, duration: 0.5});
+                document.querySelectorAll(".hover-img").forEach(other => {
+                    other.classList.remove("dimmed");
+                });
+            });
+        });
+
+        // Smooth Scroll and Animation for Sections
+        document.querySelectorAll(".nav-link[href='#contact'], .nav-link[href='#about']").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute("href"));
+                target.scrollIntoView({ behavior: "smooth" });
+                gsap.to(target, {opacity: 1, y: 0, duration: 1, ease: "power2.out"});
+            });
+        });
+    </script>
+</body>
+</html>
